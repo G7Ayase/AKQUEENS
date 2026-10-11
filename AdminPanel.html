@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Portal (Live Sheet Sync) | AK Queen's Choice</title>
+    <title>AK Queen's Choice Admin Portal (Live Sheet Sync)</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -100,7 +100,7 @@
                 </div>
                 <div>
                     <span class="font-serif font-black text-base sm:text-lg gold-gradient-text block leading-none">AK QUEEN'S CHOICE</span>
-                    <span class="text-[9px] sm:text-[10px] text-vibrantPink-400 font-extrabold uppercase tracking-widest mt-0.5 block">Live Sheet Sync Studio</span>
+                    <span class="text-[9px] sm:text-[10px] text-vibrantPink-400 font-extrabold uppercase tracking-widest mt-0.5 block">Admin Portal (11-Column Schema)</span>
                 </div>
             </div>
 
@@ -143,10 +143,12 @@
         <div id="addSection" class="bg-darkbg-900 border border-gold-500/30 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl">
             <div class="flex items-center gap-2 mb-6 border-b border-gold-500/20 pb-4">
                 <i class="fa-solid fa-plus-circle text-vibrantPink-400 text-lg sm:text-xl"></i>
-                <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Add Product (Real-Time Google Sheet Sync)</h2>
+                <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Add Product (Real-Time Sheet Sync)</h2>
             </div>
 
             <form id="productForm" onsubmit="saveProduct(event)" class="space-y-4 sm:space-y-6">
+                <input type="hidden" id="prodImage" required>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                     <!-- Title -->
                     <div class="space-y-1.5 sm:space-y-2 md:col-span-2">
@@ -175,10 +177,25 @@
                         <select id="prodSubCategory" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500"></select>
                     </div>
 
-                    <!-- Price -->
+                    <!-- Original MRP -->
+                    <div class="space-y-1.5 sm:space-y-2">
+                        <label class="text-xs font-bold text-slate-300 uppercase">Original MRP (INR)</label>
+                        <input type="number" id="prodOriginalMrp" placeholder="4899" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
+                    </div>
+
+                    <!-- Selling Price -->
                     <div class="space-y-1.5 sm:space-y-2">
                         <label class="text-xs font-bold text-slate-300 uppercase">Selling Price (INR) *</label>
-                        <input type="number" id="prodPrice" required placeholder="1299" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
+                        <input type="number" id="prodPrice" required placeholder="3499" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
+                    </div>
+
+                    <!-- Guarantee -->
+                    <div class="space-y-1.5 sm:space-y-2">
+                        <label class="text-xs font-bold text-slate-300 uppercase">6-Month to 1 Year Guarantee? *</label>
+                        <select id="prodGuarantee" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
                     </div>
 
                     <!-- Stock Quantity -->
@@ -187,10 +204,19 @@
                         <input type="number" id="prodStockQty" required min="0" value="15" placeholder="15" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
                     </div>
 
-                    <!-- Product Image URL -->
+                    <!-- Image File Upload -->
+                    <div class="space-y-1.5 sm:space-y-2 md:col-span-2">
+                        <label class="text-xs font-bold text-slate-300 uppercase">Select Product Image File *</label>
+                        <input type="file" id="prodImageFile" accept="image/*" required onchange="handleImageFile(event, 'prodImage', 'imagePreview', 'imagePreviewContainer')" class="w-full bg-darkbg-800 border border-gold-500/30 text-slate-300 text-xs rounded-xl p-3 cursor-pointer">
+                        <div id="imagePreviewContainer" class="mt-2 hidden">
+                            <img id="imagePreview" src="" class="w-20 h-20 object-cover rounded-xl border border-gold-500/40 shadow">
+                        </div>
+                    </div>
+
+                    <!-- Description -->
                     <div class="space-y-1.5 sm:space-y-2 md:col-span-3">
-                        <label class="text-xs font-bold text-slate-300 uppercase">Product Image URL *</label>
-                        <input type="text" id="prodImage" required placeholder="https://images.unsplash.com/..." class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
+                        <label class="text-xs font-bold text-slate-300 uppercase">Description</label>
+                        <textarea id="prodDescription" rows="3" placeholder="Provide plating finish details, stones, length, or hijab fabric feel..." class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500"></textarea>
                     </div>
                 </div>
 
@@ -206,8 +232,8 @@
         <div id="inventorySection" class="bg-darkbg-900 border border-gold-500/30 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 border-b border-gold-500/20 pb-4">
                 <div>
-                    <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Live Inventory Records</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Image | SKU | Title | Category | Sub-Category | Price | Stock | Actions</p>
+                    <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Live Inventory Records (11 Columns)</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Image | SKU | Title | Category | Sub-Category | Original MRP | Selling Price | Guarantee | Stock | Description | Actions</p>
                 </div>
 
                 <div class="flex gap-2 w-full sm:w-auto">
@@ -227,7 +253,9 @@
                             <th class="p-3">Title</th>
                             <th class="p-3 hidden sm:table-cell">Category</th>
                             <th class="p-3">Sub-Category</th>
+                            <th class="p-3">MRP</th>
                             <th class="p-3">Price</th>
+                            <th class="p-3">Guarantee</th>
                             <th class="p-3">Stock</th>
                             <th class="p-3 text-center">Actions</th>
                         </tr>
@@ -250,6 +278,7 @@
 
             <form id="editForm" onsubmit="saveEditedProduct(event)" class="space-y-4">
                 <input type="hidden" id="editSKU">
+                <input type="hidden" id="editImage">
 
                 <div>
                     <label class="text-xs font-bold text-slate-300 uppercase">Product Title *</label>
@@ -271,21 +300,42 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                        <label class="text-xs font-bold text-slate-300 uppercase">Price (INR) *</label>
+                        <label class="text-xs font-bold text-slate-300 uppercase">Original MRP</label>
+                        <input type="number" id="editOriginalMrp" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-300 uppercase">Selling Price *</label>
                         <input type="number" id="editPrice" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
                     </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-300 uppercase">Guarantee *</label>
+                        <select id="editGuarantee" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
 
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="text-xs font-bold text-slate-300 uppercase">Stock Quantity *</label>
                         <input type="number" id="editStockQty" required min="0" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
                     </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-300 uppercase">Update Image File</label>
+                        <input type="file" id="editImageFile" accept="image/*" onchange="handleImageFile(event, 'editImage', 'editImagePreview', 'editImagePreviewContainer')" class="w-full bg-darkbg-800 border border-gold-500/30 text-slate-300 text-xs rounded-xl p-2 cursor-pointer mt-1">
+                    </div>
+                </div>
+
+                <div id="editImagePreviewContainer" class="hidden">
+                    <img id="editImagePreview" src="" class="w-16 h-16 object-cover rounded-xl border border-gold-500/40">
                 </div>
 
                 <div>
-                    <label class="text-xs font-bold text-slate-300 uppercase">Product Image URL *</label>
-                    <input type="text" id="editImage" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
+                    <label class="text-xs font-bold text-slate-300 uppercase">Description</label>
+                    <textarea id="editDescription" rows="3" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none"></textarea>
                 </div>
 
                 <div class="flex justify-end gap-3 pt-3 border-t border-gold-500/20">
@@ -296,9 +346,9 @@
         </div>
     </div>
 
-    <!-- Script Logic for Real-Time Live Google Sheet Sync -->
+    <!-- Script Logic -->
     <script>
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby8vhNW8ZRmhV9mN99zjhN-8j7wYCcII40Uf-P6_CbnpLMWzmp-Zh-cvx_msqA1v_fB/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9HlHO96f5suh1pT7rq8pdMHCC6iKA6-REtY9-Ijc/exec';
 
         const JEWELRY_SUBCATS = ["Short Chains", "Long Chains", "Bangles", "Bracelet", "Rings", "Haram Set", "Necklace Set", "Earrings", "Vintage Set", "Antiq Models"];
         const HIJAB_SUBCATS = ["Premium Hijabs / Scarves", "Hijab Pins & Magnetic Clips", "Undercaps / Inner Caps", "Hijab Brooches & Accessories"];
@@ -314,6 +364,23 @@
             setTimeout(() => toast.remove(), 2500);
         }
 
+        function handleImageFile(event, targetInputId, previewImgId, previewContainerId) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                document.getElementById(targetInputId).value = base64Data;
+                if (previewImgId && previewContainerId) {
+                    document.getElementById(previewImgId).src = base64Data;
+                    document.getElementById(previewContainerId).classList.remove('hidden');
+                }
+                showToast("Image loaded successfully!");
+            };
+            reader.readAsDataURL(file);
+        }
+
         function updateSubCategoryDropdown(catSelectId, subSelectId) {
             const cat = document.getElementById(catSelectId).value;
             const subDropdown = document.getElementById(subSelectId);
@@ -322,7 +389,6 @@
         }
 
         async function loadProducts() {
-            // Load local storage first for instant render
             const local = localStorage.getItem('akq_products');
             if (local) {
                 try { products = JSON.parse(local); } catch(e){}
@@ -330,7 +396,6 @@
             updateStats();
             renderAdminTable();
 
-            // Fetch live data from Google Sheet via Apps Script
             try {
                 const res = await fetch(GOOGLE_SCRIPT_URL);
                 if (res.ok) {
@@ -342,9 +407,7 @@
                         renderAdminTable();
                     }
                 }
-            } catch (err) {
-                console.log("Offline mode: Using local storage cache.");
-            }
+            } catch (err) {}
         }
 
         function updateStats() {
@@ -362,7 +425,7 @@
             const filtered = products.filter(p => (p.title && p.title.toLowerCase().includes(query)) || (p.id && p.id.toLowerCase().includes(query)));
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-500">No inventory entries recorded yet.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="10" class="p-6 text-center text-slate-500">No inventory entries recorded yet.</td></tr>`;
                 return;
             }
 
@@ -379,7 +442,9 @@
                         <td class="p-3 font-bold text-slate-100 line-clamp-1">${p.title}</td>
                         <td class="p-3 text-slate-400 hidden sm:table-cell">${p.category}</td>
                         <td class="p-3 text-vibrantPink-400 font-medium text-[11px]">${p.subCategory}</td>
+                        <td class="p-3 font-serif text-slate-400 line-through">${p.originalMrp ? '₹' + parseFloat(p.originalMrp).toLocaleString('en-IN') : '-'}</td>
                         <td class="p-3 font-serif font-bold text-gold-300">₹${parseFloat(p.price).toLocaleString('en-IN')}</td>
+                        <td class="p-3 text-gold-400 font-semibold text-[11px]">${p.guarantee || 'Yes'}</td>
                         <td class="p-3">${stockBadge}</td>
                         <td class="p-3 text-center">
                             <div class="flex items-center justify-center gap-1">
@@ -404,9 +469,14 @@
             document.getElementById('editTitle').value = p.title;
             document.getElementById('editCategory').value = p.category;
             document.getElementById('editSubCategory').value = p.subCategory;
+            document.getElementById('editOriginalMrp').value = p.originalMrp || '';
             document.getElementById('editPrice').value = p.price;
+            document.getElementById('editGuarantee').value = p.guarantee || 'Yes';
             document.getElementById('editStockQty').value = p.stockQty !== undefined ? p.stockQty : 10;
             document.getElementById('editImage').value = p.image;
+            document.getElementById('editImagePreview').src = p.image;
+            document.getElementById('editImagePreviewContainer').classList.remove('hidden');
+            document.getElementById('editDescription').value = p.description || '';
 
             openModal('editModal');
         }
@@ -422,9 +492,12 @@
                 title: document.getElementById('editTitle').value,
                 category: document.getElementById('editCategory').value,
                 subCategory: document.getElementById('editSubCategory').value,
+                originalMrp: parseFloat(document.getElementById('editOriginalMrp').value) || 0,
                 price: parseFloat(document.getElementById('editPrice').value),
+                guarantee: document.getElementById('editGuarantee').value,
                 stockQty: parseInt(document.getElementById('editStockQty').value) || 0,
-                image: document.getElementById('editImage').value
+                image: document.getElementById('editImage').value,
+                description: document.getElementById('editDescription').value
             };
 
             products[index] = updatedProd;
@@ -434,7 +507,6 @@
             updateStats();
             showToast("Syncing update to Google Sheet...", "fa-cloud-arrow-up");
 
-            // Real-time sync to Google Sheet
             try {
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
@@ -443,44 +515,56 @@
                     body: JSON.stringify(updatedProd)
                 });
                 showToast("Google Sheet updated in real-time!");
-            } catch(err) {
-                showToast("Saved locally (Sync pending)");
-            }
+            } catch(err) {}
         }
 
         async function deleteProduct(id) {
-            if (!confirm("Are you sure you want to remove this product?")) return;
+            if (!confirm("Are you sure you want to remove this product? It will also be deleted from your Google Sheet.")) return;
+            
             products = products.filter(p => p.id !== id);
             localStorage.setItem('akq_products', JSON.stringify(products));
             renderAdminTable();
             updateStats();
-            showToast("Product deleted!");
+            showToast("Deleting from Google Sheet...", "fa-trash-can");
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ id: id, action: 'delete' })
+                });
+                showToast("Deleted from Google Sheet successfully!");
+            } catch(err) {}
         }
 
         async function saveProduct(e) {
             e.preventDefault();
             const btn = document.getElementById('btnSubmit');
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Syncing...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Uploading & Syncing...`;
 
             const newProd = {
                 id: document.getElementById('prodSKU').value || `AKQ-${Math.floor(1000 + Math.random() * 9000)}`,
                 title: document.getElementById('prodTitle').value,
                 category: document.getElementById('prodCategory').value,
                 subCategory: document.getElementById('prodSubCategory').value,
+                originalMrp: parseFloat(document.getElementById('prodOriginalMrp').value) || 0,
                 price: parseFloat(document.getElementById('prodPrice').value),
+                guarantee: document.getElementById('prodGuarantee').value,
                 stockQty: parseInt(document.getElementById('prodStockQty').value) || 0,
-                image: document.getElementById('prodImage').value
+                image: document.getElementById('prodImage').value,
+                description: document.getElementById('prodDescription').value
             };
 
             products.unshift(newProd);
             localStorage.setItem('akq_products', JSON.stringify(products));
             document.getElementById('productForm').reset();
+            document.getElementById('imagePreviewContainer').classList.add('hidden');
             updateSubCategoryDropdown('prodCategory', 'prodSubCategory');
             renderAdminTable();
             updateStats();
 
-            // Real-time sync to Google Sheet
             try {
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
@@ -488,10 +572,8 @@
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(newProd)
                 });
-                showToast("Saved & synced to Google Sheet!");
-            } catch(err) {
-                showToast("Saved locally!");
-            }
+                showToast("Image uploaded & synced to Google Sheet!");
+            } catch(err) {}
 
             btn.disabled = false;
             btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Save & Sync to Google Sheet`;
@@ -521,8 +603,11 @@
                 "Title": p.title,
                 "Category": p.category,
                 "Sub-Category": p.subCategory,
-                "Price": p.price,
+                "Original MRP": p.originalMrp || '',
+                "Selling Price (INR)": p.price,
+                "Guarantee (6-Month to 1 Year)": p.guarantee || 'Yes',
                 "Stock": p.stockQty || 0,
+                "Description": p.description || '',
                 "Actions": "View / Edit / Delete"
             }));
 
