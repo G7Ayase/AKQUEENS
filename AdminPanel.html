@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Portal | AK Queen's Choice Inventory Studio</title>
+    <title>Admin Portal (Standalone) | AK Queen's Choice</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -84,7 +84,7 @@
         }
     </style>
 </head>
-<body class="bg-darkbg-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col pb-16 lg:pb-0 selection:bg-vibrantPink-500 selection:text-white">
+<body class="bg-darkbg-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col pb-20 lg:pb-0 selection:bg-vibrantPink-500 selection:text-white">
 
     <!-- Toast Notifications Container -->
     <div id="toastContainer" class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
@@ -100,7 +100,7 @@
                 </div>
                 <div>
                     <span class="font-serif font-black text-base sm:text-lg gold-gradient-text block leading-none">AK QUEEN'S CHOICE</span>
-                    <span class="text-[9px] sm:text-[10px] text-vibrantPink-400 font-extrabold uppercase tracking-widest mt-0.5 block">Admin Control Portal</span>
+                    <span class="text-[9px] sm:text-[10px] text-vibrantPink-400 font-extrabold uppercase tracking-widest mt-0.5 block">Standalone Admin Studio</span>
                 </div>
             </div>
 
@@ -147,7 +147,7 @@
         <div id="addSection" class="bg-darkbg-900 border border-gold-500/30 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl">
             <div class="flex items-center gap-2 mb-6 border-b border-gold-500/20 pb-4">
                 <i class="fa-solid fa-plus-circle text-vibrantPink-400 text-lg sm:text-xl"></i>
-                <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Add New Product to Database</h2>
+                <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Add New Product Locally</h2>
             </div>
 
             <form id="productForm" onsubmit="saveProduct(event)" class="space-y-4 sm:space-y-6">
@@ -211,12 +211,12 @@
                         </label>
                     </div>
 
-                    <!-- Image File / Drive Upload -->
+                    <!-- Image File / URL -->
                     <div class="space-y-1.5 sm:space-y-2 md:col-span-3">
-                        <label class="text-xs font-bold text-slate-300 uppercase">Product Image (File Upload or Drive URL) *</label>
+                        <label class="text-xs font-bold text-slate-300 uppercase">Product Image (File Upload or Image URL) *</label>
                         <div class="flex flex-col sm:flex-row gap-2.5">
                             <input type="file" id="prodImageFile" accept="image/*" onchange="handleImageFile(event, 'prodImage', 'imagePreview', 'imagePreviewContainer')" class="w-full bg-darkbg-800 border border-gold-500/30 text-slate-300 text-xs rounded-xl p-2 cursor-pointer">
-                            <input type="text" id="prodImage" required placeholder="Or paste Google Drive Image Link" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
+                            <input type="text" id="prodImage" required placeholder="Or paste image URL" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
                         </div>
                         <div id="imagePreviewContainer" class="mt-2 hidden">
                             <img id="imagePreview" src="" class="w-20 h-20 object-cover rounded-xl border border-gold-500/40">
@@ -232,7 +232,7 @@
 
                 <div class="flex justify-end gap-3 pt-4 border-t border-gold-500/20">
                     <button type="submit" id="btnSubmit" class="w-full sm:w-auto px-8 py-3.5 sm:py-4 bg-gradient-to-r from-gold-500 via-vibrantPink-500 to-vibrantPink-600 text-white font-extrabold rounded-xl shadow-xl hover:scale-105 transition-all text-xs uppercase tracking-wider glow-pink flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Save Product to Database & Drive
+                        <i class="fa-solid fa-floppy-disk"></i> Save Product Locally
                     </button>
                 </div>
             </form>
@@ -243,7 +243,7 @@
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 border-b border-gold-500/20 pb-4">
                 <div>
                     <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Inventory Database Records</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Live synchronised catalog database.</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Stored securely in local browser storage.</p>
                 </div>
 
                 <div class="flex gap-2 w-full sm:w-auto">
@@ -365,7 +365,7 @@
                 </div>
 
                 <div>
-                    <label class="text-xs font-bold text-slate-300 uppercase">Image URL or Drive Link *</label>
+                    <label class="text-xs font-bold text-slate-300 uppercase">Image URL *</label>
                     <input type="text" id="editImage" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
                 </div>
 
@@ -402,14 +402,11 @@
         </a>
     </div>
 
-    <!-- Script Logic -->
+    <!-- Script Logic (Standalone LocalStorage) -->
     <script>
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby8vhNW8ZRmhV9mN99zjhN-8j7wYCcII40Uf-P6_CbnpLMWzmp-Zh-cvx_msqA1v_fB/exec';
-
         const JEWELRY_SUBCATS = ["Short Chains", "Long Chains", "Bangles", "Bracelet", "Rings", "Haram Set", "Necklace Set", "Earrings", "Vintage Set", "Antiq Models"];
         const HIJAB_SUBCATS = ["Premium Hijabs / Scarves", "Hijab Pins & Magnetic Clips", "Undercaps / Inner Caps", "Hijab Brooches & Accessories"];
 
-        // Seed products to ensure catalog is never empty
         const initialProducts = [
             { id: "AKQ-101", title: "Royal Antique Lakshmi Haram Set", category: "1 Gram Plated Jewelry", subCategory: "Haram Set", price: 3499, originalPrice: 4899, image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800", antiTarnish: true, stockStatus: "In Stock", description: "Micro gold plated bridal haram with premium ruby stonework and guaranteed 6-month anti-tarnish finish.", dateAdded: "2026-10-11" },
             { id: "AKQ-102", title: "Traditional South Indian Matte Bangles Set", category: "1 Gram Plated Jewelry", subCategory: "Bangles", price: 1299, originalPrice: 1799, image: "https://images.unsplash.com/photo-1611591475155-4282fc289e2b?auto=format&fit=crop&q=80&w=800", antiTarnish: true, stockStatus: "In Stock", description: "Set of 4 antique matte gold plated bangles designed for weddings and festive wear.", dateAdded: "2026-10-11" },
@@ -432,16 +429,6 @@
             }, 2500);
         }
 
-        function formatDriveUrl(url) {
-            if (!url) return '';
-            if (url.startsWith('data:image')) return url;
-            let fileId = '';
-            if (url.includes('drive.google.com/file/d/')) fileId = url.split('/file/d/')[1].split('/')[0];
-            else if (url.includes('drive.google.com/open?id=')) fileId = url.split('id=')[1].split('&')[0];
-            else if (url.includes('drive.google.com/uc?id=')) fileId = url.split('id=')[1].split('&')[0];
-            return fileId ? `https://lh3.googleusercontent.com/d/${fileId}` : url;
-        }
-
         function handleImageFile(event, targetInputId, previewImgId, previewContainerId) {
             const file = event.target.files[0];
             if (!file) return;
@@ -454,7 +441,7 @@
                     document.getElementById(previewImgId).src = base64Data;
                     document.getElementById(previewContainerId).classList.remove('hidden');
                 }
-                showToast("Image processed for Drive Upload!");
+                showToast("Image loaded successfully!");
             };
             reader.readAsDataURL(file);
         }
@@ -466,8 +453,7 @@
             subDropdown.innerHTML = list.map(sub => `<option value="${sub}">${sub}</option>`).join('');
         }
 
-        async function loadProducts() {
-            // Load LocalStorage first
+        function loadProducts() {
             const local = localStorage.getItem('akq_products');
             if (local) {
                 try { products = JSON.parse(local); } catch(e){}
@@ -479,32 +465,6 @@
 
             updateStats();
             renderAdminTable();
-
-            // Sync live backend data from Google Script
-            try {
-                const res = await fetch(GOOGLE_SCRIPT_URL);
-                if (res.ok) {
-                    const data = await res.json();
-                    if (Array.isArray(data) && data.length > 0) {
-                        products = data.map(item => ({
-                            id: item.id || `AKQ-${Math.floor(Math.random()*10000)}`,
-                            title: item.title || 'Royal Item',
-                            category: item.category || '1 Gram Plated Jewelry',
-                            subCategory: item.subCategory || 'General',
-                            price: parseFloat(item.price) || 999,
-                            originalPrice: parseFloat(item.originalPrice) || null,
-                            image: formatDriveUrl(item.image || ''),
-                            antiTarnish: item.antiTarnish === true || item.antiTarnish === 'Yes',
-                            stockStatus: item.stockStatus || 'In Stock',
-                            description: item.description || '',
-                            dateAdded: item.dateAdded || new Date().toISOString().split('T')[0]
-                        }));
-                        localStorage.setItem('akq_products', JSON.stringify(products));
-                        updateStats();
-                        renderAdminTable();
-                    }
-                }
-            } catch (err) {}
         }
 
         function updateStats() {
@@ -521,13 +481,13 @@
             const filtered = products.filter(p => (p.title && p.title.toLowerCase().includes(query)) || (p.id && p.id.toLowerCase().includes(query)));
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-500">No matching items found.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-500">No inventory entries recorded yet.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = filtered.map(p => `
                 <tr class="hover:bg-darkbg-800/50 transition-colors">
-                    <td class="p-3"><img src="${formatDriveUrl(p.image)}" class="w-9 h-9 sm:w-10 sm:h-10 object-cover rounded-lg border border-gold-500/20" onerror="this.src='https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=100'"></td>
+                    <td class="p-3"><img src="${p.image}" class="w-9 h-9 sm:w-10 sm:h-10 object-cover rounded-lg border border-gold-500/20" onerror="this.src='https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=100'"></td>
                     <td class="p-3 font-mono font-bold text-slate-300 text-[11px]">${p.id}</td>
                     <td class="p-3 font-bold text-slate-100 line-clamp-1">${p.title}</td>
                     <td class="p-3 text-slate-400 hidden sm:table-cell">${p.category}</td>
@@ -555,7 +515,7 @@
             const p = products.find(item => item.id === id);
             if (!p) return;
 
-            document.getElementById('viewImg').src = formatDriveUrl(p.image);
+            document.getElementById('viewImg').src = p.image;
             document.getElementById('viewTitle').innerText = p.title;
             document.getElementById('viewSKU').innerText = `SKU: ${p.id}`;
             document.getElementById('viewCategory').innerText = `${p.category} • ${p.subCategory}`;
@@ -588,13 +548,13 @@
             openModal('editModal');
         }
 
-        async function saveEditedProduct(e) {
+        function saveEditedProduct(e) {
             e.preventDefault();
             const sku = document.getElementById('editSKU').value;
             const index = products.findIndex(p => p.id === sku);
             if (index === -1) return;
 
-            const updatedProd = {
+            products[index] = {
                 ...products[index],
                 title: document.getElementById('editTitle').value,
                 category: document.getElementById('editCategory').value,
@@ -606,21 +566,10 @@
                 description: document.getElementById('editDescription').value
             };
 
-            products[index] = updatedProd;
             localStorage.setItem('akq_products', JSON.stringify(products));
-
-            try {
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(updatedProd)
-                });
-            } catch(err) {}
-
             closeModal('editModal');
             loadProducts();
-            showToast("Product updated!", "fa-pen-to-square");
+            showToast("Product updated successfully!", "fa-pen-to-square");
         }
 
         function deleteProduct(id) {
@@ -631,12 +580,8 @@
             showToast("Product deleted!", "fa-trash-can");
         }
 
-        async function saveProduct(e) {
+        function saveProduct(e) {
             e.preventDefault();
-            const btn = document.getElementById('btnSubmit');
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
-
             const newProd = {
                 id: document.getElementById('prodSKU').value || `AKQ-${Math.floor(1000 + Math.random() * 9000)}`,
                 title: document.getElementById('prodTitle').value,
@@ -654,22 +599,11 @@
             products.unshift(newProd);
             localStorage.setItem('akq_products', JSON.stringify(products));
 
-            try {
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(newProd)
-                });
-            } catch(err) {}
-
-            showToast("Product saved!");
+            showToast("Product saved locally!");
             document.getElementById('productForm').reset();
             document.getElementById('imagePreviewContainer').classList.add('hidden');
             updateSubCategoryDropdown('prodCategory', 'prodSubCategory');
             loadProducts();
-            btn.disabled = false;
-            btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Save Product to Database & Drive`;
         }
 
         function openModal(id) {
@@ -689,43 +623,3 @@
                 alert("No product records available to export!");
                 return;
             }
-
-            const excelData = products.map(p => ({
-                "Product ID": p.id,
-                "Product Title": p.title,
-                "Category": p.category,
-                "Sub-Category": p.subCategory,
-                "Price (INR)": p.price,
-                "Original Price (INR)": p.originalPrice || '',
-                "Image URL / Drive Link": p.image,
-                "Anti-Tarnish / Guarantee": p.antiTarnish ? "Yes" : "No",
-                "Stock Status": p.stockStatus || "In Stock",
-                "Description": p.description || '',
-                "Date Added": p.dateAdded || ''
-            }));
-
-            const worksheet = XLSX.utils.json_to_sheet(excelData);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "AK_Queens_Inventory");
-            XLSX.writeFile(workbook, "AK_Queens_Choice_Inventory.xlsx");
-            showToast("Excel sheet downloaded!", "fa-file-excel");
-        }
-
-        function exportJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "ak_queens_choice_inventory.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            showToast("JSON downloaded!", "fa-code");
-        }
-
-        window.onload = function() {
-            updateSubCategoryDropdown('prodCategory', 'prodSubCategory');
-            loadProducts();
-        }
-    </script>
-</body>
-</html>
