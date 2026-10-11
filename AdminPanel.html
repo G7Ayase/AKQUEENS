@@ -100,7 +100,7 @@
                 </div>
                 <div>
                     <span class="font-serif font-black text-base sm:text-lg gold-gradient-text block leading-none">AK QUEEN'S CHOICE</span>
-                    <span class="text-[9px] sm:text-[10px] text-vibrantPink-400 font-extrabold uppercase tracking-widest mt-0.5 block">Admin Studio (Numeric Stock)</span>
+                    <span class="text-[9px] sm:text-[10px] text-vibrantPink-400 font-extrabold uppercase tracking-widest mt-0.5 block">Admin Studio (URL Images)</span>
                 </div>
             </div>
 
@@ -147,7 +147,7 @@
         <div id="addSection" class="bg-darkbg-900 border border-gold-500/30 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl">
             <div class="flex items-center gap-2 mb-6 border-b border-gold-500/20 pb-4">
                 <i class="fa-solid fa-plus-circle text-vibrantPink-400 text-lg sm:text-xl"></i>
-                <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Add New Product with Stock Qty</h2>
+                <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Add New Product Record</h2>
             </div>
 
             <form id="productForm" onsubmit="saveProduct(event)" class="space-y-4 sm:space-y-6">
@@ -185,16 +185,16 @@
                         <input type="number" id="prodPrice" required placeholder="1299" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
                     </div>
 
-                    <!-- Stock Quantity (Numeric) -->
+                    <!-- Stock Quantity -->
                     <div class="space-y-1.5 sm:space-y-2">
-                        <label class="text-xs font-bold text-slate-300 uppercase">Stock Quantity (Number) *</label>
+                        <label class="text-xs font-bold text-slate-300 uppercase">Stock Quantity *</label>
                         <input type="number" id="prodStockQty" required min="0" value="15" placeholder="15" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
                     </div>
 
-                    <!-- Image URL -->
+                    <!-- Product Image URL -->
                     <div class="space-y-1.5 sm:space-y-2 md:col-span-3">
                         <label class="text-xs font-bold text-slate-300 uppercase">Product Image URL *</label>
-                        <input type="text" id="prodImage" required placeholder="https://..." class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
+                        <input type="text" id="prodImage" required placeholder="https://images.unsplash.com/... or Google Drive Image link" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
                     </div>
 
                     <!-- Description -->
@@ -217,7 +217,7 @@
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 border-b border-gold-500/20 pb-4">
                 <div>
                     <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Inventory Records (8-Column Layout)</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Image | SKU | Title | Category | Sub-Category | Price | Stock Qty | Actions</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Image | SKU | Title | Category | Sub-Category | Price | Stock | Actions</p>
                 </div>
 
                 <div class="flex gap-2 w-full sm:w-auto">
@@ -238,7 +238,7 @@
                             <th class="p-3 hidden sm:table-cell">Category</th>
                             <th class="p-3">Sub-Category</th>
                             <th class="p-3">Price</th>
-                            <th class="p-3">Stock Qty</th>
+                            <th class="p-3">Stock</th>
                             <th class="p-3 text-center">Actions</th>
                         </tr>
                     </thead>
@@ -288,13 +288,13 @@
                     </div>
 
                     <div>
-                        <label class="text-xs font-bold text-slate-300 uppercase">Stock Quantity (Number) *</label>
+                        <label class="text-xs font-bold text-slate-300 uppercase">Stock Quantity *</label>
                         <input type="number" id="editStockQty" required min="0" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
                     </div>
                 </div>
 
                 <div>
-                    <label class="text-xs font-bold text-slate-300 uppercase">Image URL *</label>
+                    <label class="text-xs font-bold text-slate-300 uppercase">Product Image URL *</label>
                     <input type="text" id="editImage" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
                 </div>
 
@@ -498,7 +498,7 @@
                 "Category": p.category,
                 "Sub-Category": p.subCategory,
                 "Price": p.price,
-                "Stock Qty": p.stockQty || 0,
+                "Stock": p.stockQty || 0,
                 "Actions": "View / Edit / Delete"
             }));
 
