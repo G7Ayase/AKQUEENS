@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Portal (Standalone) | AK Queen's Choice</title>
+    <title>Admin Portal | AK Queen's Choice</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -100,7 +100,7 @@
                 </div>
                 <div>
                     <span class="font-serif font-black text-base sm:text-lg gold-gradient-text block leading-none">AK QUEEN'S CHOICE</span>
-                    <span class="text-[9px] sm:text-[10px] text-vibrantPink-400 font-extrabold uppercase tracking-widest mt-0.5 block">Standalone Admin Studio</span>
+                    <span class="text-[9px] sm:text-[10px] text-vibrantPink-400 font-extrabold uppercase tracking-widest mt-0.5 block">Admin Studio (Numeric Stock)</span>
                 </div>
             </div>
 
@@ -138,8 +138,8 @@
                 <h3 id="statHijab" class="font-serif text-2xl sm:text-3xl font-black text-vibrantPink-400 mt-1">0</h3>
             </div>
             <div class="p-4 sm:p-5 bg-darkbg-900 rounded-2xl border border-gold-500/20 shadow-xl">
-                <span class="text-[10px] sm:text-xs text-slate-400 uppercase font-bold tracking-wider">Inventory Value</span>
-                <h3 id="statValue" class="font-serif text-2xl sm:text-3xl font-black text-emerald-400 mt-1">₹0</h3>
+                <span class="text-[10px] sm:text-xs text-slate-400 uppercase font-bold tracking-wider">Total Stock Units</span>
+                <h3 id="statUnits" class="font-serif text-2xl sm:text-3xl font-black text-emerald-400 mt-1">0</h3>
             </div>
         </div>
 
@@ -147,7 +147,7 @@
         <div id="addSection" class="bg-darkbg-900 border border-gold-500/30 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl">
             <div class="flex items-center gap-2 mb-6 border-b border-gold-500/20 pb-4">
                 <i class="fa-solid fa-plus-circle text-vibrantPink-400 text-lg sm:text-xl"></i>
-                <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Add New Product Locally</h2>
+                <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Add New Product with Stock Qty</h2>
             </div>
 
             <form id="productForm" onsubmit="saveProduct(event)" class="space-y-4 sm:space-y-6">
@@ -185,42 +185,16 @@
                         <input type="number" id="prodPrice" required placeholder="1299" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
                     </div>
 
-                    <!-- Original MRP -->
+                    <!-- Stock Quantity (Numeric) -->
                     <div class="space-y-1.5 sm:space-y-2">
-                        <label class="text-xs font-bold text-slate-300 uppercase">Original MRP (INR)</label>
-                        <input type="number" id="prodOriginalPrice" placeholder="1899" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
+                        <label class="text-xs font-bold text-slate-300 uppercase">Stock Quantity (Number) *</label>
+                        <input type="number" id="prodStockQty" required min="0" value="15" placeholder="15" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
                     </div>
 
-                    <!-- Stock Status -->
-                    <div class="space-y-1.5 sm:space-y-2">
-                        <label class="text-xs font-bold text-slate-300 uppercase">Stock Status</label>
-                        <select id="prodStockStatus" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 sm:py-3 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
-                            <option value="In Stock">In Stock</option>
-                            <option value="Low Stock">Low Stock</option>
-                            <option value="Out of Stock">Out of Stock</option>
-                        </select>
-                    </div>
-
-                    <!-- Anti-Tarnish Toggle -->
-                    <div class="space-y-1.5 sm:space-y-2 flex flex-col justify-center">
-                        <label class="text-xs font-bold text-slate-300 uppercase">6-Month Guarantee?</label>
-                        <label class="inline-flex items-center cursor-pointer gap-2 mt-1">
-                            <input type="checkbox" id="prodAntiTarnish" checked class="sr-only peer">
-                            <div class="w-11 h-6 bg-darkbg-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-vibrantPink-600 relative"></div>
-                            <span class="text-xs text-slate-300 font-bold">Yes</span>
-                        </label>
-                    </div>
-
-                    <!-- Image File / URL -->
+                    <!-- Image URL -->
                     <div class="space-y-1.5 sm:space-y-2 md:col-span-3">
-                        <label class="text-xs font-bold text-slate-300 uppercase">Product Image (File Upload or Image URL) *</label>
-                        <div class="flex flex-col sm:flex-row gap-2.5">
-                            <input type="file" id="prodImageFile" accept="image/*" onchange="handleImageFile(event, 'prodImage', 'imagePreview', 'imagePreviewContainer')" class="w-full bg-darkbg-800 border border-gold-500/30 text-slate-300 text-xs rounded-xl p-2 cursor-pointer">
-                            <input type="text" id="prodImage" required placeholder="Or paste image URL" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
-                        </div>
-                        <div id="imagePreviewContainer" class="mt-2 hidden">
-                            <img id="imagePreview" src="" class="w-20 h-20 object-cover rounded-xl border border-gold-500/40">
-                        </div>
+                        <label class="text-xs font-bold text-slate-300 uppercase">Product Image URL *</label>
+                        <input type="text" id="prodImage" required placeholder="https://..." class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
                     </div>
 
                     <!-- Description -->
@@ -242,8 +216,8 @@
         <div id="inventorySection" class="bg-darkbg-900 border border-gold-500/30 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 border-b border-gold-500/20 pb-4">
                 <div>
-                    <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Inventory Database Records</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Stored securely in local browser storage.</p>
+                    <h2 class="font-serif font-bold text-lg sm:text-xl gold-gradient-text">Inventory Records (8-Column Layout)</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Image | SKU | Title | Category | Sub-Category | Price | Stock Qty | Actions</p>
                 </div>
 
                 <div class="flex gap-2 w-full sm:w-auto">
@@ -264,7 +238,7 @@
                             <th class="p-3 hidden sm:table-cell">Category</th>
                             <th class="p-3">Sub-Category</th>
                             <th class="p-3">Price</th>
-                            <th class="p-3 hidden md:table-cell">Stock</th>
+                            <th class="p-3">Stock Qty</th>
                             <th class="p-3 text-center">Actions</th>
                         </tr>
                     </thead>
@@ -275,63 +249,27 @@
 
     </main>
 
-    <!-- 1. VIEW PRODUCT MODAL -->
-    <div id="viewModal" class="fixed inset-0 z-50 bg-darkbg-950/80 backdrop-blur-md hidden items-center justify-center p-4">
-        <div class="bg-darkbg-900 border border-gold-500/40 rounded-2xl sm:rounded-3xl max-w-lg w-full p-5 sm:p-6 text-white shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeModal('viewModal')" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-
-            <div class="space-y-4">
-                <div class="aspect-square rounded-2xl overflow-hidden bg-darkbg-950 border border-gold-500/30">
-                    <img id="viewImg" src="" alt="Product Preview" class="w-full h-full object-cover">
-                </div>
-
-                <div>
-                    <span id="viewCategory" class="text-[10px] font-bold text-vibrantPink-400 uppercase tracking-widest block"></span>
-                    <h3 id="viewTitle" class="font-serif text-xl sm:text-2xl font-bold gold-gradient-text mt-0.5"></h3>
-                    <span id="viewSKU" class="text-xs text-slate-400 font-mono"></span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <span id="viewPrice" class="font-serif text-2xl font-black text-gold-300"></span>
-                    <span id="viewOriginalPrice" class="text-sm text-slate-500 line-through"></span>
-                    <span id="viewStock" class="px-2.5 py-1 rounded-full text-[10px] font-bold"></span>
-                </div>
-
-                <div id="viewAntiTarnish" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-300 text-xs font-bold">
-                    <i class="fa-solid fa-shield-halved text-vibrantPink-400"></i> 6-Month Guarantee
-                </div>
-
-                <div>
-                    <h4 class="text-xs font-bold text-slate-400 uppercase mb-1">Description</h4>
-                    <p id="viewDescription" class="text-xs text-slate-300 font-light leading-relaxed"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2. EDIT PRODUCT MODAL -->
+    <!-- EDIT PRODUCT MODAL -->
     <div id="editModal" class="fixed inset-0 z-50 bg-darkbg-950/80 backdrop-blur-md hidden items-center justify-center p-4">
         <div class="bg-darkbg-900 border border-gold-500/40 rounded-2xl sm:rounded-3xl max-w-2xl w-full p-5 sm:p-6 text-white shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModal('editModal')" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
 
-            <h3 class="font-serif text-lg sm:text-xl font-bold gold-gradient-text mb-4">Edit Product Entry</h3>
+            <h3 class="font-serif text-lg sm:text-xl font-bold gold-gradient-text mb-4">Edit Product Record</h3>
 
             <form id="editForm" onsubmit="saveEditedProduct(event)" class="space-y-4">
                 <input type="hidden" id="editSKU">
 
                 <div>
                     <label class="text-xs font-bold text-slate-300 uppercase">Product Title *</label>
-                    <input type="text" id="editTitle" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:border-vibrantPink-500">
+                    <input type="text" id="editTitle" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="text-xs font-bold text-slate-300 uppercase">Category *</label>
-                        <select id="editCategory" onchange="updateSubCategoryDropdown('editCategory', 'editSubCategory')" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
+                        <select id="editCategory" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
                             <option value="1 Gram Plated Jewelry">1 Gram Plated Jewelry</option>
                             <option value="Hijab Essentials">Hijab Essentials</option>
                         </select>
@@ -339,28 +277,19 @@
 
                     <div>
                         <label class="text-xs font-bold text-slate-300 uppercase">Sub-Category *</label>
-                        <select id="editSubCategory" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none"></select>
+                        <input type="text" id="editSubCategory" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="text-xs font-bold text-slate-300 uppercase">Price (INR) *</label>
                         <input type="number" id="editPrice" required class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
                     </div>
 
                     <div>
-                        <label class="text-xs font-bold text-slate-300 uppercase">Original Price (INR)</label>
-                        <input type="number" id="editOriginalPrice" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-bold text-slate-300 uppercase">Stock Status</label>
-                        <select id="editStockStatus" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
-                            <option value="In Stock">In Stock</option>
-                            <option value="Low Stock">Low Stock</option>
-                            <option value="Out of Stock">Out of Stock</option>
-                        </select>
+                        <label class="text-xs font-bold text-slate-300 uppercase">Stock Quantity (Number) *</label>
+                        <input type="number" id="editStockQty" required min="0" class="w-full bg-darkbg-800 border border-gold-500/30 text-white px-3 py-2.5 rounded-xl text-sm focus:outline-none">
                     </div>
                 </div>
 
@@ -382,36 +311,16 @@
         </div>
     </div>
 
-    <!-- Mobile Bottom Navigation Bar -->
-    <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-darkbg-900 border-t border-gold-500/30 px-6 py-2.5 z-40 flex items-center justify-around text-[10px] font-bold text-slate-400">
-        <a href="#inventorySection" class="flex flex-col items-center gap-1 text-gold-300">
-            <i class="fa-solid fa-table-list text-base"></i>
-            <span>Inventory</span>
-        </a>
-        <a href="#addSection" class="flex flex-col items-center gap-1 text-slate-400 hover:text-vibrantPink-400">
-            <i class="fa-solid fa-circle-plus text-base"></i>
-            <span>Add Item</span>
-        </a>
-        <button onclick="exportToExcel()" class="flex flex-col items-center gap-1 text-emerald-400">
-            <i class="fa-solid fa-file-excel text-base"></i>
-            <span>Excel</span>
-        </button>
-        <a href="index.html" target="_blank" class="flex flex-col items-center gap-1 text-slate-400 hover:text-gold-300">
-            <i class="fa-solid fa-store text-base"></i>
-            <span>Storefront</span>
-        </a>
-    </div>
-
-    <!-- Script Logic (Standalone LocalStorage) -->
+    <!-- Script Logic -->
     <script>
         const JEWELRY_SUBCATS = ["Short Chains", "Long Chains", "Bangles", "Bracelet", "Rings", "Haram Set", "Necklace Set", "Earrings", "Vintage Set", "Antiq Models"];
         const HIJAB_SUBCATS = ["Premium Hijabs / Scarves", "Hijab Pins & Magnetic Clips", "Undercaps / Inner Caps", "Hijab Brooches & Accessories"];
 
         const initialProducts = [
-            { id: "AKQ-101", title: "Royal Antique Lakshmi Haram Set", category: "1 Gram Plated Jewelry", subCategory: "Haram Set", price: 3499, originalPrice: 4899, image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800", antiTarnish: true, stockStatus: "In Stock", description: "Micro gold plated bridal haram with premium ruby stonework and guaranteed 6-month anti-tarnish finish.", dateAdded: "2026-10-11" },
-            { id: "AKQ-102", title: "Traditional South Indian Matte Bangles Set", category: "1 Gram Plated Jewelry", subCategory: "Bangles", price: 1299, originalPrice: 1799, image: "https://images.unsplash.com/photo-1611591475155-4282fc289e2b?auto=format&fit=crop&q=80&w=800", antiTarnish: true, stockStatus: "In Stock", description: "Set of 4 antique matte gold plated bangles designed for weddings and festive wear.", dateAdded: "2026-10-11" },
-            { id: "AKQ-201", title: "Luxury Silk Chiffon Hijab - Rose Dust", category: "Hijab Essentials", subCategory: "Premium Hijabs / Scarves", price: 699, originalPrice: 999, image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=800", antiTarnish: false, stockStatus: "In Stock", description: "Ultra-soft, breathable silk chiffon drape scarf with finished luxury rolled hems.", dateAdded: "2026-10-11" },
-            { id: "AKQ-202", title: "No-Snag Magnetic Hijab Pins (Set of 4)", category: "Hijab Essentials", subCategory: "Hijab Pins & Magnetic Clips", price: 349, originalPrice: 599, image: "https://images.unsplash.com/photo-1606760227091-3dd850d97f1d?auto=format&fit=crop&q=80&w=800", antiTarnish: false, stockStatus: "In Stock", description: "Ultra-strong commercial grade magnetic clips to keep hijabs intact without damaging fabric.", dateAdded: "2026-10-11" }
+            { id: "AKQ-101", title: "Royal Antique Lakshmi Haram Set", category: "1 Gram Plated Jewelry", subCategory: "Haram Set", price: 3499, stockQty: 15, image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800", description: "Micro gold plated bridal haram with premium ruby stonework." },
+            { id: "AKQ-102", title: "Traditional South Indian Matte Bangles Set", category: "1 Gram Plated Jewelry", subCategory: "Bangles", price: 1299, stockQty: 25, image: "https://images.unsplash.com/photo-1611591475155-4282fc289e2b?auto=format&fit=crop&q=80&w=800", description: "Set of 4 antique matte gold plated bangles." },
+            { id: "AKQ-201", title: "Luxury Silk Chiffon Hijab - Rose Dust", category: "Hijab Essentials", subCategory: "Premium Hijabs / Scarves", price: 699, stockQty: 40, image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=800", description: "Ultra-soft, breathable silk chiffon drape scarf." },
+            { id: "AKQ-202", title: "No-Snag Magnetic Hijab Pins (Set of 4)", category: "Hijab Essentials", subCategory: "Hijab Pins & Magnetic Clips", price: 349, stockQty: 100, image: "https://images.unsplash.com/photo-1606760227091-3dd850d97f1d?auto=format&fit=crop&q=80&w=800", description: "Ultra-strong commercial grade magnetic clips." }
         ];
 
         let products = [];
@@ -422,28 +331,7 @@
             toast.className = 'toast-slide bg-darkbg-900 border border-gold-500/40 text-slate-100 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs pointer-events-auto';
             toast.innerHTML = `<i class="fa-solid ${icon} text-vibrantPink-400 text-base"></i> <span class="font-bold">${msg}</span>`;
             container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transition = 'all 0.3s ease';
-                setTimeout(() => toast.remove(), 300);
-            }, 2500);
-        }
-
-        function handleImageFile(event, targetInputId, previewImgId, previewContainerId) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64Data = e.target.result;
-                document.getElementById(targetInputId).value = base64Data;
-                if (previewImgId && previewContainerId) {
-                    document.getElementById(previewImgId).src = base64Data;
-                    document.getElementById(previewContainerId).classList.remove('hidden');
-                }
-                showToast("Image loaded successfully!");
-            };
-            reader.readAsDataURL(file);
+            setTimeout(() => toast.remove(), 2500);
         }
 
         function updateSubCategoryDropdown(catSelectId, subSelectId) {
@@ -471,8 +359,9 @@
             document.getElementById('statTotal').innerText = products.length;
             document.getElementById('statJewelry').innerText = products.filter(p => p.category && p.category.includes('Jewelry')).length;
             document.getElementById('statHijab').innerText = products.filter(p => p.category && p.category.includes('Hijab')).length;
-            const totalVal = products.reduce((sum, p) => sum + (parseFloat(p.price)||0), 0);
-            document.getElementById('statValue').innerText = `₹${totalVal.toLocaleString('en-IN')}`;
+            
+            const totalUnits = products.reduce((sum, p) => sum + (parseInt(p.stockQty) || 0), 0);
+            document.getElementById('statUnits').innerText = totalUnits;
         }
 
         function renderAdminTable() {
@@ -485,49 +374,34 @@
                 return;
             }
 
-            tbody.innerHTML = filtered.map(p => `
-                <tr class="hover:bg-darkbg-800/50 transition-colors">
-                    <td class="p-3"><img src="${p.image}" class="w-9 h-9 sm:w-10 sm:h-10 object-cover rounded-lg border border-gold-500/20" onerror="this.src='https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=100'"></td>
-                    <td class="p-3 font-mono font-bold text-slate-300 text-[11px]">${p.id}</td>
-                    <td class="p-3 font-bold text-slate-100 line-clamp-1">${p.title}</td>
-                    <td class="p-3 text-slate-400 hidden sm:table-cell">${p.category}</td>
-                    <td class="p-3 text-vibrantPink-400 font-medium text-[11px]">${p.subCategory}</td>
-                    <td class="p-3 font-serif font-bold text-gold-300">₹${parseFloat(p.price).toLocaleString('en-IN')}</td>
-                    <td class="p-3 hidden md:table-cell"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${p.stockStatus === 'In Stock' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'}">${p.stockStatus || 'In Stock'}</span></td>
-                    <td class="p-3 text-center">
-                        <div class="flex items-center justify-center gap-1">
-                            <button onclick="viewProduct('${p.id}')" class="p-1.5 text-gold-400 hover:text-white rounded-lg hover:bg-gold-500/10" title="View">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                            <button onclick="openEditModal('${p.id}')" class="p-1.5 text-vibrantPink-400 hover:text-white rounded-lg hover:bg-vibrantPink-500/10" title="Edit">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button onclick="deleteProduct('${p.id}')" class="p-1.5 text-rose-400 hover:text-rose-300 rounded-lg hover:bg-rose-500/10" title="Delete">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
+            tbody.innerHTML = filtered.map(p => {
+                const qty = parseInt(p.stockQty) || 0;
+                const stockBadge = qty > 0 
+                    ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">${qty} In Stock</span>`
+                    : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30">0 Sold Out</span>`;
 
-        function viewProduct(id) {
-            const p = products.find(item => item.id === id);
-            if (!p) return;
-
-            document.getElementById('viewImg').src = p.image;
-            document.getElementById('viewTitle').innerText = p.title;
-            document.getElementById('viewSKU').innerText = `SKU: ${p.id}`;
-            document.getElementById('viewCategory').innerText = `${p.category} • ${p.subCategory}`;
-            document.getElementById('viewPrice').innerText = `₹${parseFloat(p.price).toLocaleString('en-IN')}`;
-            document.getElementById('viewOriginalPrice').innerText = p.originalPrice ? `₹${parseFloat(p.originalPrice).toLocaleString('en-IN')}` : '';
-            
-            const stockBadge = document.getElementById('viewStock');
-            stockBadge.innerText = p.stockStatus || 'In Stock';
-            stockBadge.className = p.stockStatus === 'In Stock' ? 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30';
-
-            document.getElementById('viewDescription').innerText = p.description || 'No additional details provided.';
-            openModal('viewModal');
+                return `
+                    <tr class="hover:bg-darkbg-800/50 transition-colors">
+                        <td class="p-3"><img src="${p.image}" class="w-9 h-9 sm:w-10 sm:h-10 object-cover rounded-lg border border-gold-500/20" onerror="this.src='https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=100'"></td>
+                        <td class="p-3 font-mono font-bold text-slate-300 text-[11px]">${p.id}</td>
+                        <td class="p-3 font-bold text-slate-100 line-clamp-1">${p.title}</td>
+                        <td class="p-3 text-slate-400 hidden sm:table-cell">${p.category}</td>
+                        <td class="p-3 text-vibrantPink-400 font-medium text-[11px]">${p.subCategory}</td>
+                        <td class="p-3 font-serif font-bold text-gold-300">₹${parseFloat(p.price).toLocaleString('en-IN')}</td>
+                        <td class="p-3">${stockBadge}</td>
+                        <td class="p-3 text-center">
+                            <div class="flex items-center justify-center gap-1">
+                                <button onclick="openEditModal('${p.id}')" class="p-1.5 text-vibrantPink-400 hover:text-white rounded-lg hover:bg-vibrantPink-500/10" title="Edit">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button onclick="deleteProduct('${p.id}')" class="p-1.5 text-rose-400 hover:text-rose-300 rounded-lg hover:bg-rose-500/10" title="Delete">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         function openEditModal(id) {
@@ -537,11 +411,9 @@
             document.getElementById('editSKU').value = p.id;
             document.getElementById('editTitle').value = p.title;
             document.getElementById('editCategory').value = p.category;
-            updateSubCategoryDropdown('editCategory', 'editSubCategory');
             document.getElementById('editSubCategory').value = p.subCategory;
             document.getElementById('editPrice').value = p.price;
-            document.getElementById('editOriginalPrice').value = p.originalPrice || '';
-            document.getElementById('editStockStatus').value = p.stockStatus || 'In Stock';
+            document.getElementById('editStockQty').value = p.stockQty !== undefined ? p.stockQty : 10;
             document.getElementById('editImage').value = p.image;
             document.getElementById('editDescription').value = p.description || '';
 
@@ -560,8 +432,7 @@
                 category: document.getElementById('editCategory').value,
                 subCategory: document.getElementById('editSubCategory').value,
                 price: parseFloat(document.getElementById('editPrice').value),
-                originalPrice: parseFloat(document.getElementById('editOriginalPrice').value) || null,
-                stockStatus: document.getElementById('editStockStatus').value,
+                stockQty: parseInt(document.getElementById('editStockQty').value) || 0,
                 image: document.getElementById('editImage').value,
                 description: document.getElementById('editDescription').value
             };
@@ -588,12 +459,9 @@
                 category: document.getElementById('prodCategory').value,
                 subCategory: document.getElementById('prodSubCategory').value,
                 price: parseFloat(document.getElementById('prodPrice').value),
-                originalPrice: parseFloat(document.getElementById('prodOriginalPrice').value) || null,
+                stockQty: parseInt(document.getElementById('prodStockQty').value) || 0,
                 image: document.getElementById('prodImage').value,
-                antiTarnish: document.getElementById('prodAntiTarnish').checked,
-                stockStatus: document.getElementById('prodStockStatus').value,
-                description: document.getElementById('prodDescription').value,
-                dateAdded: new Date().toISOString().split('T')[0]
+                description: document.getElementById('prodDescription').value
             };
 
             products.unshift(newProd);
@@ -601,7 +469,6 @@
 
             showToast("Product saved locally!");
             document.getElementById('productForm').reset();
-            document.getElementById('imagePreviewContainer').classList.add('hidden');
             updateSubCategoryDropdown('prodCategory', 'prodSubCategory');
             loadProducts();
         }
@@ -623,3 +490,29 @@
                 alert("No product records available to export!");
                 return;
             }
+
+            const excelData = products.map(p => ({
+                "Image": p.image,
+                "SKU": p.id,
+                "Title": p.title,
+                "Category": p.category,
+                "Sub-Category": p.subCategory,
+                "Price": p.price,
+                "Stock Qty": p.stockQty || 0,
+                "Actions": "View / Edit / Delete"
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(excelData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "AK_Queens_Inventory");
+            XLSX.writeFile(workbook, "AK_Queens_Choice_Inventory.xlsx");
+            showToast("Excel spreadsheet downloaded!", "fa-file-excel");
+        }
+
+        window.onload = function() {
+            updateSubCategoryDropdown('prodCategory', 'prodSubCategory');
+            loadProducts();
+        }
+    </script>
+</body>
+</html>
